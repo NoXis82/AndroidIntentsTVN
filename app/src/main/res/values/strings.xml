@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AndroidIntentsTVN</string>
+    <string name="text_sync_btn">синхронизация</string>
+    <string name="host_afternoon">http://afternoon</string>
+    <string name="btn_start">Запуск</string>
+    <string name="host_evening">http://evening</string>
+    <string name="host_morning">http://morning</string>
+</resources>
