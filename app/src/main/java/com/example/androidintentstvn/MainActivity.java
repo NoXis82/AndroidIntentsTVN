@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String HOST_MORNING = "http://morning";
@@ -28,25 +25,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Date currentDate = new Date();
-                DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                DateFormat hourFormat = new SimpleDateFormat("HH", Locale.getDefault());
-                String hour = hourFormat.format(currentDate);
-                String time = timeFormat.format(currentDate);
-                Toast.makeText(v.getContext(), time, Toast.LENGTH_SHORT).show();
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                Date time = Calendar.getInstance().getTime();
+                Toast.makeText(v.getContext(), time.toString(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_SYNC);
-                if (Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 14) {
+                if (hour >= 6 && hour < 14) {
                     intent.setData(Uri.parse(HOST_MORNING));
-                    intent.putExtra(HOST_MORNING, time);
+                    intent.putExtra(HOST_MORNING, time.toString());
                 }
-                if (Integer.parseInt(hour) >= 14 && Integer.parseInt(hour) < 15) {
+                if (hour == 14) {
                     intent.setData(Uri.parse(HOST_AFTERNOON));
-                    intent.putExtra(HOST_AFTERNOON, time);
+                    intent.putExtra(HOST_AFTERNOON, time.toString());
                 }
-                if (Integer.parseInt(hour) >= 15 ||
-                        Integer.parseInt(hour) >= 0 && Integer.parseInt(hour) < 6) {
+                if (hour >= 15 || hour < 6) {
                     intent.setData(Uri.parse(HOST_EVENING));
-                    intent.putExtra(HOST_EVENING, time);
+                    intent.putExtra(HOST_EVENING, time.toString());
                 }
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
